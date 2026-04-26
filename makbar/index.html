@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engr. Muhammad Akbar — Professional Engineer | Mechanical & Utilities</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080d1a;--bg2:#0e1628;--panel:rgba(26,37,64,0.92);--panel2:rgba(26,37,64,0.70);
+  --blueprint:#c8a84b;--steel:#1a2540;--gold:#c8a84b;--gold2:#e8c96d;
+  --gold-dim:rgba(200,168,75,0.15);--ink:#f5f0e8;--ink2:#e8dfc8;--muted:#8a9bb5;
+  --border:rgba(200,168,75,0.2);--border2:rgba(200,168,75,0.4);--line:rgba(200,168,75,0.1);
+  --green:#1a6b3a;--green-dim:rgba(26,107,58,0.1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Rajdhani',sans-serif;font-weight:400;overflow-x:hidden;}
+
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 3rem;background:rgba(8,13,26,0.88);backdrop-filter:blur(14px);border-bottom:1.5px solid var(--border);box-shadow:0 2px 16px rgba(26,58,92,0.08);}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--gold);letter-spacing:.04em;}
+.nav-brand span{font-weight:300;color:var(--muted);}
+.nav-links{display:flex;gap:1.8rem;list-style:none;}
+.nav-links a{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;color:var(--muted);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+
+section{position:relative;z-index:1;}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;overflow:hidden;}
+.hero-grid{display:grid;grid-template-columns:1fr 400px;gap:4rem;align-items:center;max-width:1200px;margin:0 auto;width:100%;}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold-dim);border:1.5px solid var(--border2);padding:.35rem 1rem;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;font-family:'Space Mono',monospace;}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse-dot 2s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.35;transform:scale(.65);}}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,4.5vw,4.2rem);font-weight:300;line-height:1.05;color:var(--ink2);margin-bottom:.4rem;}
+.hero-name strong{display:block;font-weight:700;color:#fff;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;font-weight:400;color:var(--gold);margin-bottom:.6rem;}
+.hero-org{font-size:.78rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:1.6rem;}
+.hero-desc{font-size:1rem;line-height:1.85;color:var(--ink2);max-width:540px;margin-bottom:2rem;}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{padding:.72rem 2rem;background:var(--gold);color:var(--bg);font-weight:700;font-family:'Rajdhani',sans-serif;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:all .3s;}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px);}
+.btn-outline{padding:.72rem 2rem;background:transparent;color:var(--gold);font-weight:600;font-family:'Rajdhani',sans-serif;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1.5px solid var(--border2);cursor:pointer;transition:all .3s;}
+.btn-outline:hover{background:var(--gold-dim);}
+.hero-stats{display:flex;gap:2rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border);}
+.stat-item{text-align:center;}
+.stat-number{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--gold);line-height:1;}
+.stat-label{font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:.2rem;}
+
+/* PHOTO */
+.hero-photo-wrap{position:relative;display:flex;justify-content:center;}
+.photo-frame{position:relative;width:320px;height:380px;box-shadow:8px 8px 0 rgba(200,168,75,0.3),12px 12px 0 var(--border2);}
+.photo-border-tl{position:absolute;top:-14px;left:-14px;width:64px;height:64px;border-top:2px solid var(--gold);border-left:2px solid var(--gold);}
+.photo-border-br{position:absolute;bottom:-14px;right:-14px;width:64px;height:64px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold);}
+.photo-frame img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;filter:contrast(1.05) saturate(.9);}
+.photo-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,rgba(200,215,228,.5) 100%);}
+.photo-tag{position:absolute;bottom:0;left:0;right:0;background:rgba(8,13,26,.9);border-top:1.5px solid var(--border2);padding:.6rem 1rem;text-align:center;}
+.photo-tag span{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.floating-badge{position:absolute;top:16px;right:-24px;background:var(--gold);color:var(--bg);padding:.5rem 1rem;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;clip-path:polygon(8px 0,100% 0,100% 100%,0 100%,0 8px);animation:float-y 3s ease-in-out infinite;font-family:'Space Mono',monospace;}
+@keyframes float-y{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+
+/* DIVIDER */
+.section-divider{height:1.5px;background:var(--border);position:relative;}
+.section-divider::before{content:'';position:absolute;left:50%;top:-3px;transform:translateX(-50%);width:60px;height:7px;background:var(--gold);clip-path:polygon(4px 0,calc(100% - 4px) 0,100% 100%,0 100%);}
+
+/* SECTION HEADER */
+.section-header{text-align:center;margin-bottom:3rem;}
+.section-eyebrow{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-family:'Space Mono',monospace;display:block;margin-bottom:.5rem;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3vw,2.8rem);font-weight:300;color:var(--ink2);}
+.section-title strong{font-weight:700;color:var(--ink);}
+
+/* ABOUT */
+#about{padding:6rem 4rem;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;max-width:1200px;margin:0 auto;align-items:start;}
+.about-text p{font-size:1rem;line-height:1.9;color:rgba(232,223,200,0.85);margin-bottom:1.1rem;}
+.about-highlights{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+.highlight-card{background:var(--panel);border:1.5px solid var(--border);padding:1.35rem;position:relative;overflow:hidden;transition:all .35s;box-shadow:0 2px 12px rgba(26,58,92,.06);}
+.highlight-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);}
+.highlight-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.highlight-card h4{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:.3rem;}
+.highlight-card p{font-size:.82rem;line-height:1.65;color:var(--muted);}
+
+/* INFO STRIPS */
+.info-strips{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1200px;margin:2.5rem auto 0;}
+.info-strip{background:var(--panel);border:1.5px solid var(--border);padding:1.1rem 1.3rem;display:flex;align-items:center;gap:.9rem;box-shadow:0 2px 8px rgba(26,58,92,.05);}
+.info-strip-icon{font-size:1.3rem;flex-shrink:0;}
+.info-strip-text{font-size:.78rem;color:var(--muted);line-height:1.5;}
+.info-strip-text strong{display:block;font-size:.82rem;color:var(--ink2);font-weight:600;}
+
+/* EXPERTISE */
+#expertise{padding:6rem 4rem;background:rgba(14,22,40,0.6);}
+.expertise-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.35rem;max-width:1200px;margin:0 auto;}
+.expertise-card{background:var(--panel);border:1.5px solid var(--border);padding:1.8rem 1.5rem;position:relative;overflow:hidden;transition:all .35s;cursor:default;box-shadow:0 2px 10px rgba(26,58,92,.05);}
+.expertise-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2.5px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.expertise-card:hover{border-color:var(--border2);box-shadow:0 6px 24px rgba(26,58,92,.12);}
+.expertise-card:hover::after{transform:scaleX(1);}
+.exp-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--gold-dim);border:1.5px solid var(--border2);margin-bottom:1rem;font-size:1.25rem;}
+.expertise-card h3{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink2);margin-bottom:.4rem;}
+.expertise-card p{font-size:.82rem;line-height:1.7;color:var(--muted);}
+
+/* EXPERIENCE */
+#experience{padding:6rem 4rem;}
+.timeline{max-width:900px;margin:0 auto;position:relative;}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1.5px;background:var(--border);transform:translateX(-50%);}
+.timeline-item{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;margin-bottom:2.75rem;align-items:start;}
+.tl-content{background:var(--panel);border:1.5px solid var(--border);padding:1.6rem;position:relative;padding-left:1.5rem;transition:all .3s;box-shadow:0 2px 12px rgba(26,58,92,.06);}
+.tl-content:hover{border-color:var(--border2);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+.tl-content::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);}
+.timeline-item:nth-child(even) .tl-content{grid-column:3;padding-left:1.5rem;}
+.timeline-item:nth-child(even) .tl-dot{grid-column:2;}
+.timeline-item:nth-child(even) .tl-date{grid-column:1;text-align:right;padding-right:1.5rem;padding-left:0;}
+.timeline-item:nth-child(odd) .tl-content{grid-column:1;}
+.timeline-item:nth-child(odd) .tl-dot{grid-column:2;}
+.timeline-item:nth-child(odd) .tl-date{grid-column:3;padding-left:1.5rem;}
+.tl-company{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.25rem;font-family:'Space Mono',monospace;}
+.tl-role{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--ink2);margin-bottom:.45rem;}
+.tl-desc{font-size:.82rem;line-height:1.75;color:var(--muted);}
+.tl-dot{display:flex;align-items:flex-start;justify-content:center;padding-top:1.6rem;}
+.tl-dot-inner{width:14px;height:14px;background:var(--gold);border:2.5px solid var(--bg);border-radius:50%;position:relative;z-index:1;box-shadow:0 0 0 3px rgba(184,134,11,.25);}
+.tl-date{padding-top:1.6rem;}
+.tl-period{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--gold);display:block;margin-bottom:.2rem;}
+.tl-duration{font-size:.7rem;color:var(--muted);}
+
+/* ===== PROJECTS PORTFOLIO ===== */
+#projects{padding:6rem 4rem;background:rgba(14,22,40,0.6);}
+.proj-tabs{display:flex;gap:.6rem;justify-content:center;margin-bottom:2.5rem;flex-wrap:wrap;}
+.proj-tab{padding:.5rem 1.4rem;background:rgba(26,37,64,0.6);border:1.5px solid var(--border);font-size:.75rem;font-weight:600;font-family:'Rajdhani',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .25s;}
+.proj-tab.active{background:var(--gold);color:var(--bg);border-color:var(--gold);}
+.proj-tab:hover:not(.active){border-color:var(--border2);color:var(--gold);}
+.proj-panel{display:none;max-width:1200px;margin:0 auto;}
+.proj-panel.active{display:block;}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;}
+.proj-card{background:var(--panel);border:1.5px solid var(--border);padding:1.5rem;position:relative;overflow:hidden;transition:all .3s;box-shadow:0 2px 8px rgba(26,58,92,.05);}
+.proj-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);}
+.proj-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 6px 18px rgba(26,58,92,.1);}
+.proj-client{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.25rem;font-family:'Space Mono',monospace;}
+.proj-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink2);margin-bottom:.35rem;}
+.proj-detail{font-size:.8rem;line-height:1.65;color:var(--muted);}
+.proj-tag{display:inline-block;padding:.2rem .65rem;background:var(--gold-dim);border:1px solid var(--border2);font-size:.65rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-top:.6rem;}
+/* Solar table layout */
+.solar-table{width:100%;border-collapse:collapse;background:var(--panel);box-shadow:0 2px 12px rgba(26,58,92,.06);}
+.solar-table th{background:var(--steel);color:var(--gold);padding:.75rem 1rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-family:'Space Mono',monospace;text-align:left;}
+.solar-table td{padding:.7rem 1rem;font-size:.85rem;color:rgba(232,223,200,0.85);border-bottom:1px solid var(--border);}
+.solar-table tr:hover td{background:rgba(200,168,75,.05);}
+.solar-table td:nth-child(3){font-family:'Space Mono',monospace;font-size:.78rem;color:var(--gold);font-weight:600;}
+.solar-table td.loc{font-size:.75rem;color:var(--muted);}
+.kwp-bar{display:flex;align-items:center;gap:.6rem;}
+.kwp-bar-fill{height:6px;background:var(--gold);border-radius:2px;min-width:4px;}
+
+/* FAT */
+.fat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;max-width:1200px;margin:0 auto;}
+.fat-card{background:var(--panel);border:1.5px solid var(--border);padding:1.3rem 1.2rem;display:flex;gap:.9rem;align-items:flex-start;box-shadow:0 2px 8px rgba(26,58,92,.05);transition:all .3s;}
+.fat-card:hover{border-color:var(--border2);}
+.fat-num{width:32px;height:32px;background:var(--gold);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;font-family:'Space Mono',monospace;flex-shrink:0;}
+.fat-body h5{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-weight:700;color:var(--ink2);margin-bottom:.15rem;}
+.fat-body p{font-size:.78rem;color:var(--muted);line-height:1.55;}
+.fat-country{font-size:.65rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-weight:600;}
+
+/* EDUCATION */
+#education{padding:6rem 4rem;}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.25rem;max-width:1100px;margin:0 auto 3rem;}
+.edu-card{background:var(--panel);border:1.5px solid var(--border);padding:1.9rem;position:relative;overflow:hidden;box-shadow:0 2px 12px rgba(26,58,92,.06);}
+.edu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),transparent);}
+.edu-degree{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--ink2);margin-bottom:.28rem;}
+.edu-institution{font-size:.82rem;color:var(--gold);letter-spacing:.03em;margin-bottom:.35rem;font-weight:600;}
+.edu-detail{font-size:.79rem;color:var(--muted);line-height:1.7;}
+
+/* CERTS */
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:1.1rem;max-width:1200px;margin:0 auto 2.5rem;}
+.cert-card{background:var(--panel);border:1.5px solid var(--border);padding:1.4rem 1.1rem;text-align:center;transition:all .3s;box-shadow:0 2px 8px rgba(26,58,92,.05);}
+.cert-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 6px 18px rgba(26,58,92,.1);}
+.cert-badge{width:42px;height:42px;background:var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto .8rem;color:var(--bg);font-weight:700;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);}
+.cert-name{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:var(--ink2);margin-bottom:.2rem;}
+.cert-org{font-size:.7rem;color:var(--gold);margin-bottom:.3rem;letter-spacing:.03em;font-weight:600;}
+.cert-id{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);}
+
+/* CPD COURSES */
+.cpd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;max-width:1200px;margin:0 auto;}
+.cpd-card{background:var(--panel);border:1.5px solid var(--border);padding:1.3rem 1.3rem;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(26,58,92,.05);transition:all .3s;}
+.cpd-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);}
+.cpd-card:hover{border-color:var(--border2);}
+.cpd-issuer{font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.2rem;font-family:'Space Mono',monospace;}
+.cpd-title{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-weight:700;color:var(--ink2);margin-bottom:.2rem;}
+.cpd-date{font-size:.75rem;color:var(--muted);}
+
+/* AWARDS */
+#awards{padding:6rem 4rem;background:rgba(14,22,40,0.6);}
+.awards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:1100px;margin:0 auto;}
+.award-card{background:var(--panel);border:1.5px solid var(--border2);padding:2rem;position:relative;box-shadow:0 4px 20px rgba(184,134,11,.1);transition:all .3s;}
+.award-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(184,134,11,.15);}
+.award-icon{font-size:2rem;margin-bottom:.9rem;}
+.award-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink2);margin-bottom:.3rem;}
+.award-org{font-size:.78rem;color:var(--gold);font-weight:600;letter-spacing:.05em;margin-bottom:.6rem;}
+.award-desc{font-size:.85rem;line-height:1.7;color:var(--muted);}
+.award-meta{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--blueprint);margin-top:.6rem;padding-top:.6rem;border-top:1px solid var(--border);}
+
+/* TRAVEL */
+#travel{padding:5rem 4rem;}
+.travel-inner{max-width:1100px;margin:0 auto;}
+.travel-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.country-list{display:flex;flex-wrap:wrap;gap:.7rem;}
+.country-tag{display:flex;align-items:center;gap:.5rem;background:var(--steel);border:1.5px solid var(--border);padding:.45rem 1rem;font-size:.82rem;color:var(--ink2);font-weight:500;transition:all .25s;}
+.country-tag:hover{border-color:var(--border2);color:var(--gold);}
+.country-tag::before{content:'✈';font-size:.7rem;color:var(--gold);}
+.lang-badges{display:flex;gap:.8rem;flex-wrap:wrap;}
+.lang-badge{padding:.5rem 1.4rem;background:var(--gold);color:var(--bg);font-size:.82rem;font-weight:600;letter-spacing:.08em;}
+
+/* SKILLS */
+#skills{padding:6rem 4rem;background:rgba(14,22,40,0.6);}
+.skills-wrapper{max-width:1100px;margin:0 auto;}
+.skills-categories{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.skill-cat h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--gold);padding-bottom:.6rem;border-bottom:1.5px solid var(--border);margin-bottom:.85rem;}
+.skill-tag{display:inline-flex;align-items:center;gap:.35rem;background:rgba(26,37,64,0.6);border:1.5px solid var(--border);padding:.35rem .82rem;font-size:.77rem;color:var(--ink2);margin:.2rem .17rem;transition:all .25s;font-weight:500;}
+.skill-tag::before{content:'';width:4px;height:4px;background:var(--gold);border-radius:50%;}
+.skill-tag:hover{background:var(--steel);border-color:var(--border2);color:var(--gold);}
+
+/* CONTACT */
+#contact{padding:6rem 4rem;text-align:center;}
+.contact-inner{max-width:900px;margin:0 auto;}
+.contact-intro{font-size:1rem;line-height:1.85;color:rgba(232,223,200,0.8);margin-bottom:2.5rem;}
+.contact-main-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem;text-align:left;}
+.contact-block{background:var(--panel);border:1.5px solid var(--border);padding:2rem;box-shadow:0 2px 10px rgba(26,58,92,.05);}
+.contact-block h4{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
+.contact-row{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.75rem;}
+.contact-row-icon{font-size:.9rem;color:var(--gold);margin-top:.1rem;flex-shrink:0;}
+.contact-row-body{font-size:.85rem;color:var(--muted);line-height:1.6;}
+.contact-row-body strong{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:.1rem;font-family:'Space Mono',monospace;}
+.contact-row-body a{color:var(--ink2);text-decoration:none;}
+.contact-row-body a:hover{color:var(--gold2);}
+.pec-note{display:inline-flex;align-items:center;gap:.7rem;background:var(--gold-dim);border:1.5px solid var(--border2);padding:.65rem 1.75rem;font-size:.73rem;color:var(--gold);letter-spacing:.09em;font-weight:600;margin-top:1rem;}
+
+/* FOOTER */
+footer{background:#050a14;border-top:1.5px solid var(--border);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;}
+footer p{font-size:.74rem;color:rgba(200,220,240,.7);letter-spacing:.05em;}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:#fff;}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:.9rem 1.5rem;}.nav-links{display:none;}
+  #hero{padding:7rem 1.5rem 3rem;}
+  .hero-grid{grid-template-columns:1fr;text-align:center;}
+  .hero-desc{max-width:100%;}
+  .hero-ctas{justify-content:center;}
+  .hero-photo-wrap{order:-1;}
+  .photo-frame{width:220px;height:265px;}
+  .hero-stats{justify-content:center;flex-wrap:wrap;gap:1.5rem;}
+  #about,#expertise,#experience,#projects,#education,#awards,#travel,#skills,#contact{padding:4.5rem 1.5rem;}
+  .about-grid,.edu-grid,.contact-main-grid,.travel-grid{grid-template-columns:1fr;}
+  .about-highlights{grid-template-columns:1fr;}
+  .info-strips{grid-template-columns:1fr 1fr;}
+  .timeline::before{left:14px;}
+  .timeline-item{grid-template-columns:1fr;}
+  .timeline-item:nth-child(odd) .tl-content,.timeline-item:nth-child(even) .tl-content{grid-column:1;grid-row:2;}
+  .tl-dot{grid-column:1;grid-row:1;justify-content:flex-start;padding-top:0;padding-bottom:.5rem;}
+  .tl-date,.timeline-item:nth-child(even) .tl-date{grid-column:1;grid-row:3;text-align:left;padding-left:0;padding-top:.5rem;}
+  .skills-categories{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:.75rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Engr. <span>Muhammad Akbar</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid">
+    <div class="hero-text reveal">
+      <div class="hero-badge">Available for Consulting &amp; Projects</div>
+      <h1 class="hero-name">Engr. <strong>Muhammad Akbar</strong></h1>
+      <p class="hero-title">Director &amp; Principal Consultant</p>
+      <p class="hero-org">Enerzone Engineering Services &nbsp;|&nbsp; PEC No: MECH/13836</p>
+      <p class="hero-desc">Over 27 years of engineering excellence in Utilities Management — providing strategic oversight across project planning, feasibility studies, design reviews, technical evaluations, utility cost optimization, installation supervision, and O&amp;M governance.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">Get In Touch</a>
+        <a href="#projects" class="btn-outline">View Projects</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-number">27+</div><div class="stat-label">Years Experience</div></div>
+        <div class="stat-item"><div class="stat-number">12+</div><div class="stat-label">Solar Projects</div></div>
+        <div class="stat-item"><div class="stat-number">5</div><div class="stat-label">RO Plant Projects</div></div>
+        <div class="stat-item"><div class="stat-number">8</div><div class="stat-label">Memberships</div></div>
+        <div class="stat-item"><div class="stat-number">8</div><div class="stat-label">Countries Visited</div></div>
+      </div>
+    </div>
+    <div class="hero-photo-wrap reveal">
+      <div class="photo-frame">
+        <div class="photo-border-tl"></div>
+        <div class="photo-border-br"></div>
+        <img src="data:image/jpeg;base64,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" alt="Engr. Muhammad Akbar">
+        <div class="photo-overlay"></div>
+        <div class="photo-tag"><span>B.E. Mech. &nbsp;|&nbsp; NED University 1998 &nbsp;|&nbsp; P.E.</span></div>
+      </div>
+      <div class="floating-badge">PE · MECH/13836</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">// profile</span>
+    <h2 class="section-title">About <strong>Me</strong></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>With over <strong style="color:var(--gold)">27 years of engineering excellence</strong> in Utilities Management, I provide strategic oversight across project planning, feasibility studies, design reviews, technical evaluations, utility cost optimization, installation supervision, and O&amp;M governance.</p>
+      <p>I hold a B.E. (Mechanical Engineering) degree from NED University of Engineering &amp; Technology, Karachi (Batch 1993–94), and have enhanced my Business Communication skills through a professional course at the IBA-City Campus, Karachi — graduating with First Position.</p>
+      <p>I co-founded <strong style="color:var(--gold)">Enerzone Engineering Services (EES)</strong> in 2008, serving initially as Manager Projects, then transitioning to Director full-time in 2009. EES is a PEC-registered consultancy based at S.I.T.E., Karachi, delivering multidisciplinary engineering solutions for industrial and commercial-scale facilities.</p>
+      <p>Currently active in Energy Audits &amp; Compliance under NEECA and Pakistan-Accord, supporting industries to transition toward sustainable, safe, and energy-efficient operations.</p>
+    </div>
+    <div class="about-highlights reveal">
+      <div class="highlight-card"><h4>Textile Utilities</h4><p>Expert in Knits Dyeing &amp; Finishing plants, air jet weaving mills, plastic injection molding plant utilities.</p></div>
+      <div class="highlight-card"><h4>Energy &amp; Power</h4><p>Captive power cogeneration, on-grid solar PV with net metering, waste heat recovery systems.</p></div>
+      <div class="highlight-card"><h4>Water Systems</h4><p>Seawater &amp; brackish water RO desalination. Pioneered infiltration gallery design at Gwadar West Bay.</p></div>
+      <div class="highlight-card"><h4>Mechanical Systems</h4><p>Boiler &amp; steam piping, absorption chillers HVAC, compressed air, fire hydrant systems (NFPA-20).</p></div>
+    </div>
+  </div>
+  <div class="info-strips reveal">
+    <div class="info-strip"><div class="info-strip-icon">📍</div><div class="info-strip-text"><strong>Office Address</strong>Suite 509, 5th Floor, SS Chamber, Plot B-76, Estate Avenue, S.I.T.E., Karachi</div></div>
+    <div class="info-strip"><div class="info-strip-icon">📞</div><div class="info-strip-text"><strong>Phone</strong>+92 316 311 8811</div></div>
+    <div class="info-strip"><div class="info-strip-icon">🌐</div><div class="info-strip-text"><strong>Languages</strong>Urdu &amp; English (Professional)</div></div>
+    <div class="info-strip"><div class="info-strip-icon">⚙️</div><div class="info-strip-text"><strong>PEC Registration</strong>MECH/13836 · Valid: Dec 31, 2026</div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EXPERTISE -->
+<section id="expertise">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">// services &amp; specializations</span>
+    <h2 class="section-title">Core <strong>Expertise</strong></h2>
+  </div>
+  <div class="expertise-grid">
+    <div class="expertise-card reveal"><div class="exp-icon">⚡</div><h3>Captive Power Co-generation</h3><p>Gas genset co-generation with jacket &amp; exhaust waste heat recovery systems. Full lifecycle from feasibility through O&amp;M.</p></div>
+    <div class="expertise-card reveal"><div class="exp-icon">☀️</div><h3>On-Grid Solar PV Systems</h3><p>EPC of on-grid solar PV systems with net metering. Projects from 20 KWp to 550 KWp across textile, food, and commercial sectors.</p></div>
+    <div class="expertise-card reveal"><div class="exp-icon">🌊</div><h3>Seawater RO Desalination</h3><p>Design, EPC &amp; O&amp;M of SWRO plants from 25,000 IGPD to 5 MGD. Technical advisor for 200,000 IGPD KPT Manora plant.</p></div>
+    <div class="expertise-card reveal"><div class="exp-icon">🔥</div><h3>Boiler House Engineering</h3><p>Complete boiler house design, steam supply &amp; condensate return piping. Pre-shipment inspections in Italy &amp; beyond.</p></div>
+    <div class="expertise-card reveal"><div class="exp-icon">❄️</div><h3>HVAC &amp; Absorption Chillers</h3><p>Absorption &amp; water/air-cooled screw chillers, cooling towers, pumps, heat exchangers, and air handling units (AHUs).</p></div>
+    <div class="expertise-card reveal"><div class="exp-icon">💨</div><h3>Compressed Air Systems</h3><p>Industrial compressed air system design, screw compressor selection, distribution network, and O&amp;M.</p></div>
+    <div class="expertise-card reveal"><div class="exp-icon">🔍</div><h3>Energy Audits &amp; Conservation</h3><p>Comprehensive industrial energy audits for textile, pharmaceutical, and process industries aligned with NEECA requirements.</p></div>
+    <div class="expertise-card reveal"><div class="exp-icon">🚒</div><h3>Fire Hydrant Systems</h3><p>NFPA-20 compliant fire pump and hydrant system design, installation supervision. FPAP certified fire safety auditor.</p></div>
+    <div class="expertise-card reveal"><div class="exp-icon">🔬</div><h3>Design Reviews &amp; Validation</h3><p>Third-party design validation, pre-shipment inspections (FAT), and technical evaluations for industrial equipment.</p></div>
+    <div class="expertise-card reveal"><div class="exp-icon">📋</div><h3>Project Management &amp; EPC</h3><p>End-to-end EPC turnkey project execution, tender preparation, pre-qualification, contract awards, and commissioning.</p></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">// career history</span>
+    <h2 class="section-title">Professional <strong>Experience</strong></h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="tl-content">
+        <div class="tl-company">Enerzone Engineering Services · S.I.T.E., Karachi</div>
+        <div class="tl-role">Director &amp; Co-Founder</div>
+        <div class="tl-desc">Co-founded EES in 2008; transitioned to full-time Director in 2009. Leads a PEC-registered consultancy delivering Engineering Utilities solutions including Energy Audits, Co-gen Plants, Solar PV Systems, SWRO Desalination Plants, Boiler House Engineering, HVAC, Compressed Air, and Fire Hydrant Systems for industrial and commercial clients across Pakistan.</div>
+      </div>
+      <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      <div class="tl-date">
+        <span class="tl-period">2009 – Present</span>
+        <span class="tl-duration">16+ yrs · Karachi</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="tl-content">
+        <div class="tl-company">Color Ital (Pvt.) Ltd. / Maxco (Pvt.) Ltd. · Korangi Creek, Karachi</div>
+        <div class="tl-role">Head of Engineering Utilities</div>
+        <div class="tl-desc">Joined this Italian-group textile dyeing &amp; finishing plant as Manager Services. In-charge of O&amp;M of full utilities suite — Captive Power Co-gen Plant, Boilers, Chillers, Compressors, and RO Plants. Visited Italy and Turkey for Factory Acceptance Tests (FAT). Project Team Leader for Textile Machinery &amp; Utilities installations.</div>
+      </div>
+      <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      <div class="tl-date">
+        <span class="tl-period">Oct 2003 – 2009</span>
+        <span class="tl-duration">~5 yrs 8 mos · Karachi</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="tl-content">
+        <div class="tl-company">The Imperial Electric Co. (Pvt.) Ltd. · Shahrah-e-Faisal, Karachi</div>
+        <div class="tl-role">Project Engineer — EPC Gwadar SWRO</div>
+        <div class="tl-desc">Led EPC/Turnkey execution of 2×50,000 IGPD SWRO Desalination Plant (TDS 45,000→&lt;500 ppm) at Gwadar West Bay. Pioneered a 300,000 IGPD "Infiltration Gallery" seawater intake. Built seawater pump house, 100,000-gallon UG settling tank, RO plant building, 2×318 KVA + 1×15 KVA DG sets, and managed O&amp;M for 2 years. Mentored by Mr. Shoaib Usmani.</div>
+      </div>
+      <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      <div class="tl-date">
+        <span class="tl-period">Aug 2001 – Nov 2003</span>
+        <span class="tl-duration">2 yrs 4 mos · Gwadar/Karachi</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="tl-content">
+        <div class="tl-company">Engineer's United Company · Clifton, Karachi</div>
+        <div class="tl-role">Project Engineer</div>
+        <div class="tl-desc">First professional role post-graduation. Worked in Energy Conservation &amp; Utilities Management for textile and process industries — Boiler House Engineering, Steam &amp; Condensate Piping, RO Plants, and Co-gen Power Plants. Handled projects for ICI Pakistan, Glaxowelcome, Novartis, J&amp;P Coats, Nakshbandi Industries, and Sitara Textile Mills. Mentored by Mr. Imran Jinnah.</div>
+      </div>
+      <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      <div class="tl-date">
+        <span class="tl-period">Oct 1998 – Aug 2001</span>
+        <span class="tl-duration">2 yrs 11 mos · Karachi</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PROJECTS PORTFOLIO -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">// portfolio</span>
+    <h2 class="section-title">Notable <strong>Projects</strong></h2>
+  </div>
+  <div class="proj-tabs reveal">
+    <button class="proj-tab active" onclick="showProj('roplants',this)">RO Desalination</button>
+    <button class="proj-tab" onclick="showProj('solar',this)">Solar PV</button>
+    <button class="proj-tab" onclick="showProj('cogen',this)">Co-gen &amp; HVAC</button>
+    <button class="proj-tab" onclick="showProj('fire',this)">Fire &amp; Safety</button>
+    <button class="proj-tab" onclick="showProj('fat',this)">Pre-Shipment / FAT</button>
+    <button class="proj-tab" onclick="showProj('earlycareer',this)">Early Career</button>
+  </div>
+
+  <!-- RO PLANTS -->
+  <div class="proj-panel active" id="panel-roplants">
+    <div class="proj-grid">
+      <div class="proj-card"><div class="proj-client">DHA – Karachi</div><div class="proj-title">5 MGD SWRO Desalination Plant</div><div class="proj-detail">Consultancy services for Pakistan Defense Officers Housing Authority (DHA) for establishment of a 5 MGD Seawater RO Desalination Plant at DHA Phase V-III, Karachi, on BOT basis.</div><span class="proj-tag">Consultancy · BOT</span></div>
+      <div class="proj-card"><div class="proj-client">GITL – Gwadar Port, Baluchistan</div><div class="proj-title">100,000 IGPD SWRO Plant</div><div class="proj-detail">Revamping and O&amp;M of 100,000 IGPD containerized seawater desalination plant with Seawater Open Intake RO/RO Jetty at Gwadar International Terminal Ltd.</div><span class="proj-tag">Revamping · O&amp;M</span></div>
+      <div class="proj-card"><div class="proj-client">GPA – Gwadar, Baluchistan</div><div class="proj-title">2 × 50,000 IGPD SWRO Plants</div><div class="proj-detail">Revamping and O&amp;M of 2×50,000 IGPD SWRO Desalination Plants featuring the pioneering "Infiltration Gallery" direct seawater intake system and brine disposal systems for Gwadar Port Authority.</div><span class="proj-tag">EPC · Revamping · O&amp;M</span></div>
+      <div class="proj-card"><div class="proj-client">GDA – Gwadar, Baluchistan</div><div class="proj-title">25 MGD Desalination — Feasibility</div><div class="proj-detail">Project Planning &amp; Feasibility Study for establishment of a 25 MGD Seawater Desalination Plant for Gwadar Development Authority to support the city's long-term water supply.</div><span class="proj-tag">Feasibility Study</span></div>
+      <div class="proj-card"><div class="proj-client">KPT – Manora, Karachi</div><div class="proj-title">200,000 IGPD SWRO Plant</div><div class="proj-detail">Served as Technical Advisor to Karachi Port Trust for a 200,000 IGPD Seawater RO Desalination Plant at Manora, providing expert guidance on technical specifications and design review.</div><span class="proj-tag">Technical Advisor</span></div>
+    </div>
+  </div>
+
+  <!-- SOLAR PV -->
+  <div class="proj-panel" id="panel-solar">
+    <div style="max-width:1100px;margin:0 auto;overflow-x:auto;">
+    <table class="solar-table">
+      <thead><tr><th>#</th><th>Client</th><th>Capacity</th><th>Location</th><th>Sector</th></tr></thead>
+      <tbody>
+        <tr><td>01</td><td>FKN Textiles — Spinning Mill</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:100%"></div>550 KWp</div></td><td class="loc">Nooriabad</td><td>Textile</td></tr>
+        <tr><td>02</td><td>Bliss Textile Industries — Stitching Unit</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:77%"></div>424 KWp</div></td><td class="loc">S.I.T.E.-II, Karachi</td><td>Textile</td></tr>
+        <tr><td>03</td><td>The Times Press (Pvt.) Ltd.</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:67%"></div>370 KWp</div></td><td class="loc">Karachi</td><td>Printing</td></tr>
+        <tr><td>04</td><td>Fashion Art International — Weaving Mill</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:49%"></div>272 KWp</div></td><td class="loc">Nooriabad</td><td>Textile</td></tr>
+        <tr><td>05</td><td>Soneri Rice Mill</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:45%"></div>248 KWp</div></td><td class="loc">Nooriabad</td><td>Rice Processing</td></tr>
+        <tr><td>06</td><td>Shahi Foods</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:33%"></div>180 KWp</div></td><td class="loc">Karachi</td><td>Food Processing</td></tr>
+        <tr><td>07</td><td>Shahi Foods</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:32%"></div>174 KWp</div></td><td class="loc">Lahore</td><td>Food Processing</td></tr>
+        <tr><td>08</td><td>Karachi Cotton Association</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:29%"></div>160 KWp</div></td><td class="loc">Karachi</td><td>Commerce</td></tr>
+        <tr><td>09</td><td>General Printing &amp; Packaging</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:24%"></div>130 KWp</div></td><td class="loc">S.I.T.E., Karachi</td><td>Printing</td></tr>
+        <tr><td>10</td><td>Fashion Art International — Dyeing Unit</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:14%"></div>78 KWp</div></td><td class="loc">Karachi</td><td>Textile</td></tr>
+        <tr><td>11</td><td>S.I.T.E. Association</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:9%"></div>50 KWp</div></td><td class="loc">Karachi</td><td>Industry Assoc.</td></tr>
+        <tr><td>12</td><td>DHA Sahil — Hybrid System</td><td><div class="kwp-bar"><div class="kwp-bar-fill" style="width:4%"></div>24 KWp</div></td><td class="loc">Karachi</td><td>Residential</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- CO-GEN & HVAC -->
+  <div class="proj-panel" id="panel-cogen">
+    <div class="proj-grid">
+      <div class="proj-card"><div class="proj-client">Siddiqsons Ltd. — Denim City, Hub, Balochistan</div><div class="proj-title">450 USRT Absorption Chiller (WHR)</div><div class="proj-detail">Piping Design &amp; Installation of 450 USRT hot water absorption chiller on waste heat recovery from 3×1.5 MW JGS-420 Jenbacher Gas Gensets.</div><span class="proj-tag">Co-gen · HVAC</span></div>
+      <div class="proj-card"><div class="proj-client">Mehran Plastic Industries — S.I.T.E., Karachi</div><div class="proj-title">Jenbacher Co-gen + Multi-Chiller HVAC</div><div class="proj-detail">Setting up of 2×1 MWe JGS-320 + 2×1.5 MWe JGS-420 Jenbacher Gas Gensets with hot water &amp; flue gas heat recovery absorption chillers (100 RT, 150 RT, 200 RT, 235 RT). HVAC with 200, 225 &amp; 250 RT cooling towers, pumps, AHUs and HEs. Also 50,000 GPD &amp; 15,000 GPD SWRO plants.</div><span class="proj-tag">Co-gen · HVAC · RO</span></div>
+      <div class="proj-card"><div class="proj-client">Blow Plast (Pvt.) Ltd. — S.I.T.E., Karachi</div><div class="proj-title">1 MWe + 635 KWe Co-gen + Absorption Chillers</div><div class="proj-detail">Setting up of 1 MWe JGS-320 + 635 KWe JGS-312 Jenbacher Gas Gensets with 150 RT &amp; 118 RT flue gas heat recovery absorption chillers. HVAC: 2×225 RT &amp; 3×250 RT cooling towers, pumps, AHUs, HEs. Also 30,000 GPD SWRO Plant.</div><span class="proj-tag">Co-gen · HVAC · RO</span></div>
+      <div class="proj-card"><div class="proj-client">Sunrise Plastic Industries — S.I.T.E., Karachi</div><div class="proj-title">Direct-Fired Absorption Chillers &amp; HVAC</div><div class="proj-detail">Setting up of 132 RT and 198 RT direct-fired absorption chillers. HVAC design &amp; supervision for process and space cooling: 4×250 RT cooling towers, pumps, piping, AHUs &amp; HEs.</div><span class="proj-tag">HVAC · Chillers</span></div>
+      <div class="proj-card"><div class="proj-client">Sunrise Plastic Industries — Rahim Yaar Khan</div><div class="proj-title">Plastic Injection &amp; Blow Molding Plant</div><div class="proj-detail">Project planning &amp; designing of RO Plant, HVAC system, LP/HP compressed air, and process cooling water piping systems for a new plastic molding plant.</div><span class="proj-tag">Multi-utility · RO · HVAC</span></div>
+      <div class="proj-card"><div class="proj-client">Novalon Polymers — Port Qasim</div><div class="proj-title">115 RT HVAC — Plastic Profile Extrusion</div><div class="proj-detail">Process design of a 115 RT HVAC system for plastic profile extrusion machines at Port Qasim Industrial Area.</div><span class="proj-tag">HVAC · Process Cooling</span></div>
+      <div class="proj-card"><div class="proj-client">Yamaha Motors Pakistan — Port Qasim</div><div class="proj-title">80 RT Process Cooling System</div><div class="proj-detail">Design &amp; installation of 80 RT process cooling water supply and return piping system.</div><span class="proj-tag">Process Cooling</span></div>
+    </div>
+  </div>
+
+  <!-- FIRE & SAFETY -->
+  <div class="proj-panel" id="panel-fire">
+    <div class="proj-grid" style="max-width:800px;margin:0 auto;">
+      <div class="proj-card"><div class="proj-client">Bliss Textile Industries — S.I.T.E.-II, Karachi</div><div class="proj-title">Fire Hydrant System — NFPA-20 Compliant</div><div class="proj-detail">Supply &amp; installation of 2×750 GPM @ 8 Bar Fire Pumps (imported from UAE — Firex brand, NFPA-20 compliant) and complete fire hydrant system for Units 1, 2, and 3.</div><span class="proj-tag">NFPA-20 · EPC</span></div>
+      <div class="proj-card"><div class="proj-client">Sanofi Aventis Pakistan Ltd. — Korangi Industrial Area</div><div class="proj-title">Energy Audit &amp; Conservation</div><div class="proj-detail">Comprehensive Energy Audit &amp; Conservation Project covering Boiler house, Natural Gas, Water, and HVAC Systems for the pharmaceutical manufacturing facility.</div><span class="proj-tag">Energy Audit · Pharma</span></div>
+      <div class="proj-card"><div class="proj-client">Textile Sector (Multiple Clients)</div><div class="proj-title">Co-gen Power Plant Energy Audits</div><div class="proj-detail">Energy audits of co-gen power plants (Gas Gensets / WHRBs / Chillers) across Spinning, Weaving, Dyeing, Knits Apparel units, and Plastic Molding facilities.</div><span class="proj-tag">Energy Audit · Textile</span></div>
+    </div>
+  </div>
+
+  <!-- FAT / PRE-SHIPMENT -->
+  <div class="proj-panel" id="panel-fat">
+    <p style="text-align:center;color:var(--muted);font-size:.9rem;margin-bottom:1.75rem;max-width:700px;margin-left:auto;margin-right:auto;">Factory Acceptance Tests (FAT) and Pre-Shipment Inspections conducted at international manufacturers prior to equipment delivery to Pakistan.</p>
+    <div class="fat-grid">
+      <div class="fat-card"><div class="fat-num">01</div><div class="fat-body"><span class="fat-country">🇮🇹 Italy</span><h5>THERMA s.r.l.</h5><p>12 TPH Fire Tube Boiler &amp; 1 TPH WHRB for Interloop Ltd., Faisalabad.</p></div></div>
+      <div class="fat-card"><div class="fat-num">02</div><div class="fat-body"><span class="fat-country">🇹🇷 Turkey</span><h5>LAFER s.p.a.</h5><p>Raising &amp; Stenter Finishing Machines for textile industry clients.</p></div></div>
+      <div class="fat-card"><div class="fat-num">03</div><div class="fat-body"><span class="fat-country">🇲🇾 Malaysia</span><h5>Dunham Bush Ltd.</h5><p>Air Handling Units (AHUs) for industrial HVAC installations.</p></div></div>
+      <div class="fat-card"><div class="fat-num">04</div><div class="fat-body"><span class="fat-country">🇨🇳 China</span><h5>Shuangliang Eco Energy Systems</h5><p>Hot water &amp; Flue Gas Absorption Chillers of various units &amp; capacities.</p></div></div>
+    </div>
+  </div>
+
+  <!-- EARLY CAREER -->
+  <div class="proj-panel" id="panel-earlycareer">
+    <div class="proj-grid">
+      <div class="proj-card"><div class="proj-client">ICI Pakistan Ltd. — Khewra &amp; Sheikhupura</div><div class="proj-title">600,000 IGPD BWRO + 5.7 MWe Gas Turbine</div><div class="proj-detail">600,000 IGPD Brackish Water RO Plant (river water) and 5.7 MWe Gas Turbine with WHRB for Soda Ash Plant, Khewra. Also 100,000 IGPD BWRO Plant for Polyester Plant, Sheikhupura.</div><span class="proj-tag">BWRO · Cogen</span></div>
+      <div class="proj-card"><div class="proj-client">Glaxowelcome Pakistan Ltd. — S.I.T.E., Karachi</div><div class="proj-title">50,000 IGPD SWRO Plant</div><div class="proj-detail">Seawater reverse osmosis desalination plant for pharmaceutical manufacturing facility.</div><span class="proj-tag">SWRO · Pharma</span></div>
+      <div class="proj-card"><div class="proj-client">Novartis Pakistan Ltd. — Jamshoro</div><div class="proj-title">Energy Audit — Boilerhouse &amp; Steam Piping</div><div class="proj-detail">Energy Audit project covering Boilerhouse Engineering and Steam/Condensate Piping for the pharmaceutical plant.</div><span class="proj-tag">Energy Audit · Pharma</span></div>
+      <div class="proj-card"><div class="proj-client">J&amp;P Coats Pakistan Ltd. — S.I.T.E., Karachi</div><div class="proj-title">Energy Audit &amp; Steam/Condensate Revamping</div><div class="proj-detail">Energy Audit &amp; Conservation project including revamping of steam/condensate piping systems.</div><span class="proj-tag">Energy Audit</span></div>
+      <div class="proj-card"><div class="proj-client">Nakshbandi Industries Ltd. — Landhi, Karachi</div><div class="proj-title">CAT-G3516A Gas Genset Co-gen</div><div class="proj-detail">Co-generation system using Caterpillar G3516A Gas Genset with Steam/Condensate Piping design review for the textile unit.</div><span class="proj-tag">Co-gen · Textile</span></div>
+      <div class="proj-card"><div class="proj-client">Sitara Textile Mills Ltd. — Faisalabad</div><div class="proj-title">Energy Conservation &amp; Co-gen System</div><div class="proj-detail">Energy Conservation &amp; Co-generation system project for one of Pakistan's leading textile mills.</div><span class="proj-tag">Energy · Co-gen</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EDUCATION & CERTS -->
+<section id="education">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">// academic credentials</span>
+    <h2 class="section-title">Education &amp; <strong>Certifications</strong></h2>
+  </div>
+  <div class="edu-grid reveal">
+    <div class="edu-card">
+      <div class="edu-degree">Bachelor of Engineering — Mechanical (P.E.)</div>
+      <div class="edu-institution">NED University of Engineering &amp; Technology, Karachi</div>
+      <div class="edu-detail">Batch 1993–94 &nbsp;|&nbsp; Passed: October 1998 &nbsp;|&nbsp; Grade: A<br>Focus: Thermodynamics, Machine Design, Fluid Mechanics &amp; SGST<br>Activities: Cricket &amp; Volleyball</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-degree">Business Communication — First Position</div>
+      <div class="edu-institution">Institute of Business Administration (IBA) — City Campus, Karachi</div>
+      <div class="edu-detail">Professional-level course in Business Communication.<br>Graduated with First Position — enhancing client communication, report writing, and presentation capabilities.</div>
+    </div>
+  </div>
+
+  <div class="section-header reveal" style="margin-top:2rem;margin-bottom:1.75rem;">
+    <span class="section-eyebrow">// memberships &amp; registrations</span>
+    <h2 class="section-title" style="font-size:1.75rem;color:var(--ink2);">Professional <strong>Memberships</strong></h2>
+  </div>
+  <div class="certs-grid reveal">
+    <div class="cert-card"><div class="cert-badge">PE</div><div class="cert-name">Professional Engineer</div><div class="cert-org">Pakistan Engineering Council (PEC)</div><div class="cert-id">MECH/13836 · Valid: Dec 2026</div></div>
+    <div class="cert-card"><div class="cert-badge">IEP</div><div class="cert-name">Life Member</div><div class="cert-org">Institution of Engineers Pakistan</div><div class="cert-id">M-23849/KAR-4892 · Oct 2025</div></div>
+    <div class="cert-card"><div class="cert-badge">ASME</div><div class="cert-name">Member</div><div class="cert-org">American Society of Mechanical Engineers</div><div class="cert-id">Elected Member · 2025</div></div>
+    <div class="cert-card"><div class="cert-badge">FPAP</div><div class="cert-name">Regular Member</div><div class="cert-org">Fire Protection Assoc. of Pakistan</div><div class="cert-id">RM-8423-2025 · Valid Oct 2026</div></div>
+    <div class="cert-card"><div class="cert-badge">ACEP</div><div class="cert-name">Member Consultant</div><div class="cert-org">Assoc. of Consulting Engineers Pakistan</div><div class="cert-id">MECH-05</div></div>
+    <div class="cert-card"><div class="cert-badge">SMEP</div><div class="cert-name">Member</div><div class="cert-org">Society of Mechanical Engineers Pakistan</div><div class="cert-id">SMEP-00281</div></div>
+    <div class="cert-card"><div class="cert-badge">PakDA</div><div class="cert-name">Member</div><div class="cert-org">Pakistan Desalination Association</div><div class="cert-id">Water Technology Sector</div></div>
+  </div>
+
+  <div class="section-header reveal" style="margin-top:3rem;margin-bottom:1.75rem;">
+    <span class="section-eyebrow">// professional development</span>
+    <h2 class="section-title" style="font-size:1.75rem;color:var(--ink2);">CPD Courses &amp; <strong>Training</strong></h2>
+  </div>
+  <div class="cpd-grid reveal">
+    <div class="cpd-card"><div class="cpd-issuer">CCEE / NED Academy — Karachi</div><div class="cpd-title">Fire &amp; Safety Excellence with NFPA Codes — Level 1</div><div class="cpd-date">3-Day Professional Course &nbsp;|&nbsp; Jan 28–30, 2026 &nbsp;|&nbsp; Cert No: 34036</div></div>
+    <div class="cpd-card"><div class="cpd-issuer">FPAP — Online Session</div><div class="cpd-title">Textiles &amp; Fire Safety Requirements (TFSR)</div><div class="cpd-date">Awareness Session &nbsp;|&nbsp; Dec 23, 2025 &nbsp;|&nbsp; Cert No: FPAP/TFSR/2025/00037</div></div>
+    <div class="cpd-card"><div class="cpd-issuer">ACEP — Marriott Hotel, Karachi</div><div class="cpd-title">Conference on Resilient Urban Infrastructure</div><div class="cpd-date">CPD 1.0 Point &nbsp;|&nbsp; Feb 13, 2026 &nbsp;|&nbsp; C.NO: ACEP.FAMYC.001-07/25</div></div>
+    <div class="cpd-card"><div class="cpd-issuer">ACEP / UIT University — Karachi</div><div class="cpd-title">Integrated MEP Design for Energy-Efficient &amp; Sustainable Buildings</div><div class="cpd-date">Seminar &nbsp;|&nbsp; Oct 31, 2025 &nbsp;|&nbsp; SNo: 10-25/0011 &nbsp;|&nbsp; 0.5 CPD</div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- AWARDS & RECOGNITION -->
+<section id="awards">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">// recognition</span>
+    <h2 class="section-title">Awards &amp; <strong>Recognition</strong></h2>
+  </div>
+  <div class="awards-grid">
+    <div class="award-card reveal">
+      <div class="award-icon">🏅</div>
+      <div class="award-title">Advisor, Energy Sub-Committee</div>
+      <div class="award-org">S.I.T.E. Association of Industry — Voice of Industry</div>
+      <div class="award-desc">Memento presented by Abdul Rasheed (President, S.I.T.E. Association of Industry) in recognition of outstanding consultancy services rendered for the installation of the solar system at the S.I.T.E. Association premises — one of Karachi's most recognized industrial associations.</div>
+      <div class="award-meta">September 2022 &nbsp;|&nbsp; Karachi, Pakistan</div>
+    </div>
+    <div class="award-card reveal">
+      <div class="award-icon">⭐</div>
+      <div class="award-title">First Position — Business Communication</div>
+      <div class="award-org">Institute of Business Administration (IBA) — City Campus, Karachi</div>
+      <div class="award-desc">Achieved First Position in the professional-level Business Communication course, demonstrating exceptional communication, report writing, and client presentation skills that have been a hallmark of the professional career.</div>
+      <div class="award-meta">IBA City Campus, Karachi</div>
+    </div>
+    <div class="award-card reveal">
+      <div class="award-icon">🌊</div>
+      <div class="award-title">Pioneering Infiltration Gallery — Gwadar</div>
+      <div class="award-org">Gwadar Fish Harbor Cum Mini Port Project (GFHP)</div>
+      <div class="award-desc">Designed and executed the first-of-its-kind 300,000 IGPD direct seawater intake "Infiltration Gallery" at Gwadar West Bay — an innovative seawater intake solution that became a landmark engineering achievement in Pakistan's desalination sector.</div>
+      <div class="award-meta">Gwadar, Baluchistan &nbsp;|&nbsp; 2001–2003</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- INTERNATIONAL EXPOSURE -->
+<section id="travel">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">// global exposure</span>
+    <h2 class="section-title">International <strong>Exposure</strong></h2>
+  </div>
+  <div class="travel-inner">
+    <div class="travel-grid">
+      <div class="reveal">
+        <h4 style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--blueprint);margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1.5px solid var(--border);">Multiple Business Travels</h4>
+        <div class="country-list">
+          <div class="country-tag">Italy</div>
+          <div class="country-tag">Germany</div>
+          <div class="country-tag">Turkey</div>
+          <div class="country-tag">Dubai (UAE)</div>
+          <div class="country-tag">Bangladesh</div>
+          <div class="country-tag">Thailand</div>
+          <div class="country-tag">Malaysia</div>
+          <div class="country-tag">China</div>
+        </div>
+        <p style="font-size:.84rem;color:var(--muted);line-height:1.7;margin-top:1.2rem;">Business travel conducted for Factory Acceptance Tests (FAT), pre-shipment inspections, equipment procurement, and project collaboration with international manufacturers and suppliers across Europe, Middle East, and Asia.</p>
+      </div>
+      <div class="reveal">
+        <h4 style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--blueprint);margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1.5px solid var(--border);">Languages</h4>
+        <div class="lang-badges">
+          <div class="lang-badge">Urdu &nbsp;—&nbsp; Native</div>
+          <div class="lang-badge">English &nbsp;—&nbsp; Professional</div>
+        </div>
+        <p style="font-size:.84rem;color:var(--muted);line-height:1.7;margin-top:1.2rem;">Proficient in technical report writing, tender documentation, and client presentations in English. Enhanced through a professional-level Business Communication course at IBA City Campus — graduated with First Position.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">// competencies</span>
+    <h2 class="section-title">Technical <strong>Skills</strong></h2>
+  </div>
+  <div class="skills-wrapper">
+    <div class="skills-categories">
+      <div class="skill-cat reveal">
+        <h4>Engineering &amp; Technical</h4>
+        <span class="skill-tag">Mechanical Engineering</span>
+        <span class="skill-tag">Feasibility Studies</span>
+        <span class="skill-tag">Design Review</span>
+        <span class="skill-tag">Project Engineering</span>
+        <span class="skill-tag">Piping Design</span>
+        <span class="skill-tag">CAD / AutoCAD</span>
+        <span class="skill-tag">Water Treatment</span>
+        <span class="skill-tag">Energy Conservation</span>
+        <span class="skill-tag">HVAC Systems</span>
+        <span class="skill-tag">Seawater Desalination</span>
+        <span class="skill-tag">NFPA Codes</span>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Management &amp; Consulting</h4>
+        <span class="skill-tag">Project Management</span>
+        <span class="skill-tag">Project Planning</span>
+        <span class="skill-tag">Utilities Management</span>
+        <span class="skill-tag">Consulting</span>
+        <span class="skill-tag">Tender Preparation</span>
+        <span class="skill-tag">Fire Safety Auditing</span>
+        <span class="skill-tag">O&amp;M Management</span>
+        <span class="skill-tag">Technical Evaluation</span>
+        <span class="skill-tag">Pre-Shipment Inspection</span>
+        <span class="skill-tag">3rd Party Validation</span>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Communication &amp; Business</h4>
+        <span class="skill-tag">Business Communication</span>
+        <span class="skill-tag">Report Writing</span>
+        <span class="skill-tag">Site Supervision</span>
+        <span class="skill-tag">Client Relations</span>
+        <span class="skill-tag">Team Leadership</span>
+        <span class="skill-tag">Contract Management</span>
+        <span class="skill-tag">Commissioning</span>
+        <span class="skill-tag">Urdu &amp; English</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">// get in touch</span>
+      <h2 class="section-title">Contact <strong>Information</strong></h2>
+    </div>
+    <p class="contact-intro reveal">Whether you are looking for a trusted engineering consultant, an energy audit expert, or a project management specialist — I am available to discuss your industrial challenges and deliver results-driven engineering solutions.</p>
+    <div class="contact-main-grid reveal">
+      <div class="contact-block">
+        <h4>Direct Contact</h4>
+        <div class="contact-row">
+          <div class="contact-row-icon">📞</div>
+          <div class="contact-row-body"><strong>Phone</strong>+92 316 311 8811</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">✉️</div>
+          <div class="contact-row-body"><strong>Email</strong><a href="mailto:info@enerzone.com.pk">info@enerzone.com.pk</a></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">🔗</div>
+          <div class="contact-row-body"><strong>LinkedIn</strong><a href="https://www.linkedin.com/in/muhammad-akbar-6503481a3/" target="_blank" rel="noopener">muhammad-akbar-6503481a3 →</a></div>
+        </div>
+      </div>
+      <div class="contact-block">
+        <h4>Organisation &amp; Address</h4>
+        <div class="contact-row">
+          <div class="contact-row-icon">🏢</div>
+          <div class="contact-row-body"><strong>Organisation</strong>Enerzone Engineering Services (EES)<br>PEC-Registered Consultancy — S.I.T.E., Karachi</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">📍</div>
+          <div class="contact-row-body"><strong>Office Address</strong>Suite No. 509, 5th Floor, SS Chamber,<br>Plot No. B-76, Estate Avenue,<br>S.I.T.E., Karachi, Pakistan</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">⚙️</div>
+          <div class="contact-row-body"><strong>PEC Registration</strong>MECH/13836 &nbsp;|&nbsp; Valid: December 31, 2026</div>
+        </div>
+      </div>
+    </div>
+    <div class="pec-note reveal">
+      <span>⚙</span>
+      PEC · IEP · ASME · FPAP · ACEP · SMEP · PakDA — Registered &amp; Active Member
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Engr. Muhammad Akbar</div>
+  <p>B.E. (Mech), NED University · Professional Engineer (PE) · Director, Enerzone Engineering Services · Karachi</p>
+  <p style="font-family:'Space Mono',monospace;font-size:.66rem;color:rgba(200,220,240,.5);">© 2025 All Rights Reserved</p>
+</footer>
+
+<script>
+/* ===== LIVE MECHANICAL BACKGROUND ===== */
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',()=>{resize();gears=makeGears();pistons=makePistons();});
+
+const C={gridLine:'rgba(200,168,75,0.07)',gearStroke:'rgba(200,168,75,',gearFill:'rgba(26,37,64,',pistonFill:'rgba(36,48,82,',rodStroke:'rgba(200,168,75,',dimLine:'rgba(200,168,75,',bolt:'rgba(200,168,75,'};
+
+function drawGrid(){const sp=48;ctx.lineWidth=.5;ctx.strokeStyle=C.gridLine;for(let x=0;x<canvas.width;x+=sp){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}for(let y=0;y<canvas.height;y+=sp){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}}
+function drawHatch(){const sp=120;ctx.lineWidth=.3;ctx.strokeStyle='rgba(200,168,75,0.03)';for(let i=-canvas.height;i<canvas.width+canvas.height;i+=sp){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+canvas.height,canvas.height);ctx.stroke();}}
+
+class Gear{
+  constructor(x,y,r,teeth,spd,alpha){this.x=x;this.y=y;this.r=r;this.teeth=teeth;this.spd=spd;this.alpha=alpha;this.angle=Math.random()*Math.PI*2;}
+  draw(){const{x,y,r,teeth,angle,alpha}=this;ctx.save();ctx.translate(x,y);ctx.rotate(angle);const th=r*.22,ir=r-th*.6;ctx.beginPath();for(let i=0;i<teeth;i++){const a0=(i/teeth)*Math.PI*2,a1=((i+.35)/teeth)*Math.PI*2,a2=((i+.65)/teeth)*Math.PI*2,a3=((i+1)/teeth)*Math.PI*2;ctx.lineTo(ir*Math.cos(a0),ir*Math.sin(a0));ctx.lineTo((r+th)*Math.cos(a1),(r+th)*Math.sin(a1));ctx.lineTo((r+th)*Math.cos(a2),(r+th)*Math.sin(a2));ctx.lineTo(ir*Math.cos(a3),ir*Math.sin(a3));}ctx.closePath();ctx.fillStyle=C.gearFill+alpha*.55+')';ctx.strokeStyle=C.gearStroke+alpha+')';ctx.lineWidth=1.2;ctx.fill();ctx.stroke();ctx.beginPath();ctx.arc(0,0,r*.55,0,Math.PI*2);ctx.fillStyle=C.gearFill+alpha*.4+')';ctx.strokeStyle=C.gearStroke+alpha*.7+')';ctx.fill();ctx.stroke();const spk=4;for(let s=0;s<spk;s++){const a=((s+.5)/spk)*Math.PI*2;ctx.beginPath();ctx.moveTo(r*.2*Math.cos(a),r*.2*Math.sin(a));ctx.lineTo(r*.52*Math.cos(a),r*.52*Math.sin(a));ctx.lineWidth=r*.07;ctx.strokeStyle=C.gearStroke+alpha*.5+')';ctx.stroke();}ctx.beginPath();ctx.arc(0,0,r*.12,0,Math.PI*2);ctx.fillStyle=C.bolt+alpha+')';ctx.fill();ctx.restore();}
+  update(){this.angle+=this.spd;}
+}
+
+class Piston{
+  constructor(x,y,radius,spd,alpha){this.cx=x;this.cy=y;this.crank=radius;this.rodLen=radius*3.2;this.w=radius*.9;this.h=radius*.6;this.spd=spd;this.alpha=alpha;this.angle=Math.random()*Math.PI*2;this.vert=Math.random()<.5;}
+  draw(){const{cx,cy,crank,rodLen,w,h,angle,alpha,vert}=this;const px=vert?cx+crank*Math.cos(angle):cx;const py=vert?cy+crank*Math.sin(angle):cy+crank*Math.sin(angle);let bx,by;if(vert){by=py+Math.sqrt(Math.max(0,rodLen*rodLen-(px-cx)*(px-cx)));bx=cx;}else{bx=px+Math.sqrt(Math.max(0,rodLen*rodLen-(py-cy)*(py-cy)));by=cy;}ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(bx,by);ctx.lineWidth=w*.18;ctx.strokeStyle=C.rodStroke+alpha+')';ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,crank*.38,0,Math.PI*2);ctx.strokeStyle=C.gearStroke+alpha+')';ctx.lineWidth=1.2;ctx.stroke();ctx.beginPath();ctx.arc(px,py,w*.12,0,Math.PI*2);ctx.fillStyle=C.bolt+alpha+')';ctx.fill();ctx.save();ctx.translate(bx,by);ctx.beginPath();if(vert)ctx.rect(-w/2,-h/2,w,h);else ctx.rect(-h/2,-w/2,h,w);ctx.fillStyle=C.pistonFill+alpha*.5+')';ctx.strokeStyle=C.gearStroke+alpha+')';ctx.lineWidth=1;ctx.fill();ctx.stroke();ctx.restore();ctx.beginPath();ctx.arc(bx,by,w*.1,0,Math.PI*2);ctx.fillStyle=C.bolt+alpha*.7+')';ctx.fill();}
+  update(){this.angle+=this.spd;}
+}
+
+class DimLine{
+  constructor(){this.reset();}
+  reset(){this.x1=50+Math.random()*(canvas.width-100);this.y1=50+Math.random()*(canvas.height-100);const len=60+Math.random()*120,horiz=Math.random()<.5;this.x2=horiz?this.x1+len:this.x1;this.y2=horiz?this.y1:this.y1+len;this.horiz=horiz;this.alpha=.05+Math.random()*.1;this.life=0;this.maxLife=300+Math.random()*400;}
+  draw(){const a=this.life<30?this.life/30:this.life>this.maxLife-30?(this.maxLife-this.life)/30:1;const ea=this.alpha*a;const{x1,y1,x2,y2,horiz}=this;ctx.strokeStyle=C.dimLine+ea+')';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const tk=6;if(horiz){ctx.beginPath();ctx.moveTo(x1,y1-tk);ctx.lineTo(x1,y1+tk);ctx.stroke();ctx.beginPath();ctx.moveTo(x2,y2-tk);ctx.lineTo(x2,y2+tk);ctx.stroke();}else{ctx.beginPath();ctx.moveTo(x1-tk,y1);ctx.lineTo(x1+tk,y1);ctx.stroke();ctx.beginPath();ctx.moveTo(x2-tk,y2);ctx.lineTo(x2+tk,y2);ctx.stroke();}const mx=(x1+x2)/2,my=(y1+y2)/2,label=Math.round(Math.sqrt((x2-x1)**2+(y2-y1)**2)*.8)+' mm';ctx.fillStyle=C.dimLine+ea+')';ctx.font='10px Space Mono,monospace';ctx.textAlign='center';ctx.fillText(label,mx,horiz?my-6:mx+20);}
+  update(){this.life++;if(this.life>this.maxLife)this.reset();}
+}
+
+class Bolt{
+  constructor(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.r=2+Math.random()*3;this.alpha=.04+Math.random()*.09;}
+  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=C.bolt+this.alpha+')';ctx.strokeStyle=C.bolt+(this.alpha*1.5)+')';ctx.lineWidth=.5;ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(this.x-this.r*1.6,this.y);ctx.lineTo(this.x+this.r*1.6,this.y);ctx.moveTo(this.x,this.y-this.r*1.6);ctx.lineTo(this.x,this.y+this.r*1.6);ctx.strokeStyle=C.bolt+(this.alpha*.8)+')';ctx.lineWidth=.4;ctx.stroke();}
+}
+
+function makeGears(){const list=[];const count=Math.floor(window.innerWidth/260);for(let i=0;i<count+4;i++){const r=25+Math.random()*55;list.push(new Gear(r+Math.random()*(canvas.width-r*2),r+Math.random()*(canvas.height-r*2),r,Math.floor(8+Math.random()*10),(Math.random()*.006+.001)*(Math.random()<.5?1:-1),.08+Math.random()*.14));}return list;}
+function makePistons(){const list=[];const count=Math.floor(window.innerWidth/400);for(let i=0;i<count+2;i++){const r=20+Math.random()*30;list.push(new Piston(80+Math.random()*(canvas.width-160),80+Math.random()*(canvas.height-160),r,.012+Math.random()*.02,.06+Math.random()*.1));}return list;}
+
+let gears=makeGears(),pistons=makePistons();
+const bolts=Array.from({length:30},()=>new Bolt());
+const dims=Array.from({length:6},()=>new DimLine());
+
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);drawGrid();drawHatch();bolts.forEach(b=>b.draw());dims.forEach(d=>{d.update();d.draw();});pistons.forEach(p=>{p.update();p.draw();});gears.forEach(g=>{g.update();g.draw();});requestAnimationFrame(animate);}
+animate();
+
+/* ===== SCROLL REVEAL ===== */
+const reveals=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('visible');io.unobserve(en.target);}}),{threshold:.1});
+reveals.forEach(el=>io.observe(el));
+document.querySelectorAll('.expertise-grid .expertise-card').forEach((c,i)=>c.style.transitionDelay=(i*.065)+'s');
+document.querySelectorAll('.certs-grid .cert-card').forEach((c,i)=>c.style.transitionDelay=(i*.055)+'s');
+document.querySelectorAll('.proj-card').forEach((c,i)=>c.style.transitionDelay=(i*.05)+'s');
+
+/* ===== PROJECT TABS ===== */
+function showProj(id,btn){
+  document.querySelectorAll('.proj-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.proj-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
